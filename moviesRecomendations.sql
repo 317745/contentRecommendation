@@ -1,4 +1,4 @@
-CREATE TYPE "countrys" AS ENUM (
+CREATE TYPE IF NOT EXISTS "countrys" AS ENUM (
   'USA',
   'MEX',
   'ESP',
@@ -16,7 +16,7 @@ CREATE TYPE "countrys" AS ENUM (
   'GBR'
 );
 
-CREATE TYPE "media_types" AS ENUM (
+CREATE TYPE IF NOT EXISTS "media_types" AS ENUM (
   'Movie',
   'Series',
   'Documentary',
@@ -28,7 +28,7 @@ CREATE TYPE "media_types" AS ENUM (
   'LivePerformance'
 );
 
-CREATE TYPE "media_genres" AS ENUM (
+CREATE TYPE IF NOT EXISTS "media_genres" AS ENUM (
   'Action',
   'Adventure',
   'Animation',
@@ -51,7 +51,7 @@ CREATE TYPE "media_genres" AS ENUM (
   'Western'
 );
 
-CREATE TYPE "music_genres" AS ENUM (
+CREATE TYPE IF NOT EXISTS "music_genres" AS ENUM (
   'Pop',
   'Rock',
   'HipHop',
@@ -71,7 +71,7 @@ CREATE TYPE "music_genres" AS ENUM (
   'Punk'
 );
 
-CREATE TYPE "age_restrictions" AS ENUM (
+CREATE TYPE IF NOT EXISTS "age_restrictions" AS ENUM (
   'G',
   'PG',
   'PG13',
@@ -80,7 +80,7 @@ CREATE TYPE "age_restrictions" AS ENUM (
   'UNRATED'
 );
 
-CREATE TYPE "music_ratings" AS ENUM (
+CREATE TYPE IF NOT EXISTS "music_ratings" AS ENUM (
   'None',
   'Explicit',
   'Clean',
@@ -88,7 +88,7 @@ CREATE TYPE "music_ratings" AS ENUM (
   'Instrumental'
 );
 
-CREATE TABLE "users" (
+CREATE TABLE IF NOT EXISTS "users" (
   "user_id" INTEGER PRIMARY KEY NOT NULL,
   "first_name" VARCHAR(50) NOT NULL,
   "last_name" VARCHAR(50) NOT NULL,
@@ -102,7 +102,7 @@ CREATE TABLE "users" (
   "created_at" TIMESTAMP NOT NULL
 );
 
-CREATE TABLE "media" (
+CREATE TABLE IF NOT EXISTS "media" (
   "media_id" INTEGER PRIMARY KEY NOT NULL,
   "title" VARCHAR(100) NOT NULL,
   "genre" media_genres NOT NULL,
@@ -112,7 +112,7 @@ CREATE TABLE "media" (
   "created_in" countrys NOT NULL
 );
 
-CREATE TABLE "song" (
+CREATE TABLE IF NOT EXISTS "song" (
   "song_id" INTEGER PRIMARY KEY NOT NULL,
   "title" VARCHAR(100) NOT NULL,
   "song_genre" music_genres NOT NULL,
@@ -121,7 +121,7 @@ CREATE TABLE "song" (
   "created_in" countrys NOT NULL
 );
 
-CREATE TABLE "favorite_media" (
+CREATE TABLE IF NOT EXISTS "favorite_media" (
   "user_id" INTEGER NOT NULL,
   "media_id" INTEGER NOT NULL,
   "stars" DECIMAL(2,1) NOT NULL,
@@ -129,7 +129,7 @@ CREATE TABLE "favorite_media" (
   PRIMARY KEY ("user_id", "media_id")
 );
 
-CREATE TABLE "favorite_songs" (
+CREATE TABLE IF NOT EXISTS "favorite_songs" (
   "user_id" INTEGER NOT NULL,
   "song_id" INTEGER NOT NULL,
   "stars" DECIMAL(2,1) NOT NULL,
