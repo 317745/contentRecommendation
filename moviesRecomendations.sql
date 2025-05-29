@@ -127,6 +127,8 @@ CREATE TABLE IF NOT EXISTS "favorite_media" (
   "stars" DECIMAL(2,1) NOT NULL,
   "added_at" TIMESTAMP NOT NULL,
   PRIMARY KEY ("user_id", "media_id")
+  FOREIGN KEY ("user_id") REFERENCES "users" ("user_id");
+  FOREIGN KEY ("media_id") REFERENCES "media" ("media_id");
 );
 
 CREATE TABLE IF NOT EXISTS "favorite_songs" (
@@ -135,12 +137,6 @@ CREATE TABLE IF NOT EXISTS "favorite_songs" (
   "stars" DECIMAL(2,1) NOT NULL,
   "added_at" TIMESTAMP NOT NULL,
   PRIMARY KEY ("user_id", "song_id")
+  FOREIGN KEY ("user_id") REFERENCES "users" ("user_id");
+  FOREIGN KEY ("song_id") REFERENCES "song" ("song_id")
 );
-
-ALTER TABLE "favorite_media" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id");
-
-ALTER TABLE "favorite_media" ADD FOREIGN KEY ("media_id") REFERENCES "media" ("media_id");
-
-ALTER TABLE "favorite_songs" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id");
-
-ALTER TABLE "favorite_songs" ADD FOREIGN KEY ("song_id") REFERENCES "song" ("song_id");
