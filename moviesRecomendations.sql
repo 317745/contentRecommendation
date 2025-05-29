@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS "media" (
   "genre" media_genres NOT NULL,
   "audiovisual_type" media_types NOT NULL,
   "age_restriction" age_restrictions NOT NULL,
-  "created_at" DATE NOT NULL,
+  "created_at" TIMESTAMP NOT NULL,
   "created_in" countrys NOT NULL
 );
 
@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS "song" (
   "title" VARCHAR(100) NOT NULL,
   "song_genre" music_genres NOT NULL,
   "song_rating" music_ratings NOT NULL,
-  "created_at" DATE NOT NULL,
+  "created_at" TIMESTAMP NOT NULL,
   "created_in" countrys NOT NULL
 );
 
