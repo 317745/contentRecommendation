@@ -1,16 +1,19 @@
 import psycopg2
+import os
 from flask import g
-from config import ConfigDB
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def connection():
     if 'db' not in g:
         try: 
             g.db = psycopg2.connect(
-                host=ConfigDB.HOST,
-                user=ConfigDB.USER,
-                password=ConfigDB.PASSWORD,
-                database=ConfigDB.NAME,
-                port=ConfigDB.PORT
+                host = os.getenv('HOST'),
+                user = os.getenv('USER'),
+                password = os.getenv('DBPASSWORD'),
+                database = os.getenv('DBNAME'),
+                port = os.getenv('PORT')
             )
             print('Se establecio la conexion de manera correcta.')
         except Exception as e:
