@@ -1,3 +1,4 @@
+#API\src\models\connection.py
 import psycopg2
 import os
 from flask import g
@@ -5,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def connection():
+def get_connection():
     if 'db' not in g:
         try: 
             g.db = psycopg2.connect(
@@ -18,6 +19,7 @@ def connection():
             print('Se establecio la conexion de manera correcta.')
         except Exception as e:
             print('Sucedio un error:', e)
+            g.db = None
     return g.db
 
 def closeConnection(e=None):

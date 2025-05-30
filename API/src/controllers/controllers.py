@@ -1,6 +1,7 @@
+#API\src\controllers\controllers.py
 from src.app import app
-from flask import render_template
+from src.models.models import getMedia
 
 @app.route("/")
-def hola():
-    return render_template('index.html')
+def media():
+    return getMedia()
