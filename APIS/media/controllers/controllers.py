@@ -4,9 +4,9 @@ from models.models import getMedia
 
 @app.route("/getMedia")
 def media():
-    if getMedia()['ok'] == True:
-        return getMedia()
+    result = getMedia()
+    if result['ok']:
+        return result
     else:
-        e = getMedia()['exception']
+        e = result['exception']
         raise Exception(f'Ocurrio un error: {e}')
-    return 
