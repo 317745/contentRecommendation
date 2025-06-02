@@ -6,7 +6,7 @@ def getMedia():
     try:
         conn = get_connection()
         cursor = conn.cursor()
-        cursor.execute('SELECT * FROM moviespreference.media')
+        cursor.execute('SELECT * FROM media')
         result = {
             'ok': True,
             'data': cursor.fetchall()[0]

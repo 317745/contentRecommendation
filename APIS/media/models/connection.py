@@ -3,6 +3,9 @@ import psycopg2
 import os
 import time
 from flask import g
+from dotenv import load_dotenv
+
+load_dotenv()
 
 max_attempts = 5
 
@@ -14,9 +17,9 @@ def get_connection():
                 g.db = psycopg2.connect(
                     host = os.getenv('HOST'),
                     user = os.getenv('USER'),
-                    password = os.getenv('DBPASSWORD'),
+                    password = os.getenv('PASSWORD'),
                     database = os.getenv('DBNAME'),
-                    port = os.getenv('PORT')
+                    port = int(os.getenv('PORT'))
                 )
                 print('Se establecio la conexion a la DB de manera correcta.')
                 break

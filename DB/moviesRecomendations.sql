@@ -28,7 +28,8 @@ CREATE type countrys AS ENUM (
   'IND',
   'RUS',
   'AUS',
-  'GBR'
+  'GBR',
+  'COL'
 );
 
 CREATE type media_types AS ENUM (
