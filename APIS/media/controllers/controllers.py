@@ -5,16 +5,16 @@ import os
 from flask import jsonify
 
 from app import app
-from models.models import getMedia
+from models.models import *
 
 @app.route("/getMedia")
 def media():
-    result = getMedia()
-    if result['ok']:
-        return result
+    response = getMedia()
+    if response['ok']:
+        return jsonify(response), 200
     else:
-        e = result['exception']
-        raise Exception(f'Ocurrio un error: {e}')
+        return jsonify(response), 500
+        
 
 #Va en song Byeeeeeeeeeeee
 
@@ -45,11 +45,9 @@ def getArtist():
     headers = { 
         "Authorization": f'Bearer {token().get_json()}'
     }
-
     params = {
         'q':'turizo',
         'type':'artist'
     }
-
     response = requests.get(url, headers=headers, params=params).json()
     return response

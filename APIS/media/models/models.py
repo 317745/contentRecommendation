@@ -7,14 +7,14 @@ def getMedia():
         conn = get_connection()
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM media')
-        result = {
+        response = {
             'ok': True,
             'data': cursor.fetchall()[0]
         }
     except Exception as e:
-        result = {
+        response = {
             'ok': False,
             'exception': e
         }
-    return result
+    return response
         
