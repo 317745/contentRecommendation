@@ -1,4 +1,3 @@
-#API\src\models\connection.py
 import psycopg2
 import os
 import time
@@ -18,7 +17,7 @@ def get_connection():
                     host = os.getenv('HOST'),
                     user = os.getenv('USER'),
                     password = os.getenv('PASSWORD'),
-                    database = 'media',
+                    database = 'users',
                     port = int(os.getenv('PORT'))
                 )
                 print('Se establecio la conexion a la DB de manera correcta.')

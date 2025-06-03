@@ -20,4 +20,10 @@ def getCountryById(name):
     else: 
         return jsonify(data), 500
 
-    
+@app.route('/createUser', methods=['POST'])
+def postUser():
+    data = createUser()
+    if data['ok'] == True:
+        return jsonify(data), 200
+    else:
+        return jsonify(data), 500
