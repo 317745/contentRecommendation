@@ -8,8 +8,9 @@ app = Flask(__name__)
 @app.before_request
 def before_request():
     get_connection()
+
+CORS(app)
     
 @app.teardown_appcontext
-def teardown_appcontext():
+def teardown_appcontext(exception):
     closeConnection()
-CORS(app)
