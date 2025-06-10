@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User</title>
+</head>
+<body>
+    <div id="searchArtist">
+        <input type="text" id="artistName" required placeholder="Artist name">
+        <button onclick="getArtist()">Send</button>
+        <div id="response"></div>
+    </div>
+    <script>
+        const getArtist = async () => {
+            let artist = document.getElementById('artistName').value;
+            let container = document.getElementById('response');
+            container.innerHTML = '';
+
+            if (!artist) {
+                let warning = document.createElement('p');
+                warning.textContent = 'Escribe el nombre del artista.'
+                container.appendChild(warning);
+                return;
+            }
+
+            try {
+                const url = `http://localhost:3032/artist/${artist}`;
+                let response = await fetch(url);
+                response = await response.json();
+                const element = document.createElement('pre');
+
+                if (!response.ok) {
+                    const error = response.data;
+                    element.textContent = `Error: ${error}`;
+                } else {
+                    element.textContent = JSON.stringify(response.data, null, 2);
+                }
+
+                container.appendChild(element);
+            } catch (error) {
+                const element = document.createElement('p');
+                element.textContent = `${error.message}`
+                container.appendChild(element)
+            }
+        }
+    </script>
+</body>
+</html>

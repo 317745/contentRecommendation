@@ -1,93 +1,3 @@
-ENUM countrys {
-  USA
-  MEX
-  ESP
-  CAN
-  FRA
-  GER
-  ITA
-  BRA
-  ARG
-  CHN
-  JPN
-  IND
-  RUS
-  AUS
-  GBR
-}
-
-ENUM media_types {
-  Movie
-  Series
-  Documentary
-  ShortFilm
-  MusicVideo
-  Animation
-  Commercial
-  Trailer
-  LivePerformance
-}
-
-ENUM media_genres {
-  Action
-  Adventure
-  Animation
-  Biography
-  Comedy
-  Crime
-  Documentary
-  Drama
-  Family
-  Fantasy
-  Historical
-  Horror
-  Musical
-  Mystery
-  Romance
-  SciFi
-  Sport
-  Thriller
-  War
-  Western
-}
-
-ENUM music_genres {
-  Pop
-  Rock
-  HipHop
-  Rap
-  Jazz
-  Classical
-  Electronic
-  Country
-  Reggae
-  Blues
-  Metal
-  RnB
-  Latin
-  Folk
-  Indie
-  Soul
-  Punk
-}
-
-ENUM age_restrictions {
-  G
-  PG
-  PG13
-  R
-  NC17
-  UNRATED
-}
-
-ENUM music_ratings {
-  None
-  Explicit
-  Clean
-  ParentalAdvisory
-  Instrumental
-}
-
 TABLE users {
   user_id INTEGER [PK, NOT NULL]
   first_name VARCHAR(50) [NOT NULL]
@@ -97,7 +7,7 @@ TABLE users {
   city_of_residence VARCHAR(50) [NOT NULL]
   username VARCHAR(50) [UNIQUE, NOT NULL]
   email VARCHAR(100) [UNIQUE, NOT NULL]
-  country countrys [NOT NULL]
+  country VARCHAR(50) [NOT NULL]
   active BOOL [NOT NULL]
   created_at TIMESTAMP [NOT NULL]
 }
