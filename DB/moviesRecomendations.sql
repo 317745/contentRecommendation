@@ -1,72 +1,74 @@
-DROP TABLE IF EXISTS favorite_songs;
-DROP TABLE IF EXISTS favorite_media;
-DROP TABLE IF EXISTS singer;
-DROP TABLE IF EXISTS song;
-DROP TABLE IF EXISTS actor;
-DROP TABLE IF EXISTS media;
-DROP TABLE IF EXISTS users;
+Table users {
+  user_id int [pk, not null]
+  first_name varchar(50) [not null]
+  last_name varchar(50) [not null]
+  date_of_birth date [not null]
+  city_of_birth varchar(50) [not null]
+  city_of_residence varchar(50) [not null]
+  username varchar(50) [unique, not null]
+  email varchar(100) [unique, not null]
+  country varchar(50) [not null]
+  active boolean [not null]
+  created_at timestamp [not null]
+}
 
-DROP TABLE IF EXISTS users;
+Table media {
+  media_id int [pk, not null]
+  title varchar(100) [not null]
+  genre varchar(50) [not null]
+  audiovisual_type varchar(50) [not null]
+  age_restriction varchar(50) [not null]
+  actor_ids varchar[] 
+  created_at timestamp [not null]
+  created_country varchar(50) [not null]
+}
 
-CREATE TABLE users (
-  user_id INTEGER PRIMARY KEY NOT NULL,
-  first_name VARCHAR(50) NOT NULL,
-  last_name VARCHAR(50) NOT NULL,
-  date_of_birth DATE NOT NULL,
-  city_of_birth VARCHAR(50) NOT NULL,
-  city_of_residence VARCHAR(50) NOT NULL,
-  username VARCHAR(50) UNIQUE NOT NULL,
-  email VARCHAR(100) UNIQUE NOT NULL,
-  country VARCHAR(50) NOT NULL,
-  active BOOLEAN NOT NULL,
-  created_at TIMESTAMP NOT NULL
-);
+Table actor {
+  actor_id serial [pk]
+  api_id varchar(100) [unique, not null]
+  actor_name varchar(100) [not null]
+}
 
-CREATE TABLE media (
-  media_id INTEGER PRIMARY KEY NOT NULL,
-  title VARCHAR(100) NOT NULL,
-  genre VARCHAR(50) NOT NULL,
-  audiovisual_type VARCHAR(50) NOT NULL,
-  age_restriction VARCHAR(50) NOT NULL,
-  actor_ids VARCHAR[],
-  created_at DATE NOT NULL,
-  created_in VARCHAR(50) NOT NULL
-);
+Table media_actor {
+  media_id int [not null, ref: > media.media_id]
+  actor_id int [not null, ref: > actor.actor_id]
+  primary key (media_id, actor_id)
+}
 
-CREATE TABLE actor (
-  actor_id INTEGER PRIMARY KEY NOT NULL,
-  api_id VARCHAR(100) UNIQUE NOT NULL,
-  actor_name VARCHAR(100) NOT NULL
-);
+Table song {
+  song_id int [pk, not null]
+  title varchar(100) [not null]
+  song_genre varchar(50) [not null]
+  song_rating varchar(50) [not null]
+  artist_ids varchar[] 
+  created_at date [not null]
+  created_country varchar(50) [not null]
+}
 
-CREATE TABLE song (
-  song_id INTEGER PRIMARY KEY NOT NULL,
-  title VARCHAR(100) NOT NULL,
-  song_genre VARCHAR(50) NOT NULL,
-  song_rating VARCHAR(50) NOT NULL,
-  artist_ids VARCHAR[],
-  created_at DATE NOT NULL,
-  created_in VARCHAR(50) NOT NULL
-);
+Table singer {
+  singer_id serial [pk]
+  api_id varchar(100) [unique, not null]
+  singer_name varchar(100) [not null]
+}
 
-CREATE TABLE singer (
-  singer_id INTEGER PRIMARY KEY NOT NULL,
-  spotify_id VARCHAR(100) UNIQUE NOT NULL,
-  singer_name VARCHAR(100) NOT NULL
-);
+Table song_singer {
+  song_id int [not null, ref: > song.song_id]
+  singer_id int [not null, ref: > singer.singer_id]
+  primary key (song_id, singer_id)
+}
 
-CREATE TABLE favorite_media (
-  user_id INTEGER NOT NULL,
-  media_id INTEGER NOT NULL,
-  stars INTEGER NOT NULL,
-  added_at TIMESTAMP NOT NULL,
-  PRIMARY KEY (user_id, media_id)
-);
+Table favorite_media {
+  user_id int [not null, ref: > users.user_id]
+  media_id int [not null, ref: > media.media_id]
+  stars int [not null]
+  added_at timestamp [not null]
+  primary key (user_id, media_id)
+}
 
-CREATE TABLE favorite_songs (
-  user_id INTEGER NOT NULL,
-  song_id INTEGER NOT NULL,
-  stars INTEGER NOT NULL,
-  added_at TIMESTAMP NOT NULL,
-  PRIMARY KEY (user_id, song_id)
-);
+Table favorite_songs {
+  user_id int [not null, ref: > users.user_id]
+  song_id int [not null, ref: > song.song_id]
+  stars int [not null]
+  added_at timestamp [not null]
+  primary key (user_id, song_id)
+}
