@@ -1,5 +1,5 @@
 TABLE users {
-  user_id INTEGER [PK, NOT NULL]
+  user_id SERIAL [PK, NOT NULL]
   first_name VARCHAR(50) [NOT NULL]
   last_name VARCHAR(50) [NOT NULL]
   date_of_birth date [NOT NULL]
