@@ -7,7 +7,7 @@ from flask import jsonify
 @app.route('/getCountrys')
 def getCountrys():
     data = countrys()
-    if data['ok'] == True:
+    if data['ok']:
         return jsonify(data), 200
     else: 
         return jsonify(data), 500
@@ -15,7 +15,7 @@ def getCountrys():
 @app.route('/countryById/<string:name>')
 def getCountryById(name):
     data = countryByName(name)
-    if data['ok'] == True:
+    if data['ok']:
         return jsonify(data), 200
     else: 
         return jsonify(data), 500
@@ -23,7 +23,39 @@ def getCountryById(name):
 @app.route('/createUser', methods=['POST'])
 def postUser():
     data = createUser()
-    if data['ok'] == True:
+    if data['ok']:
+        return jsonify(data), 200
+    else:
+        return jsonify(data), 500
+
+@app.route('/getUsers', methods=['GET'])
+def getAllUsers():
+    data = getUsers()
+    if data['ok']:
+        return jsonify(data), 200
+    else:
+        return jsonify(data), 500
+
+@app.route('/getUserId/<string:id>', methods=['GET'])
+def getUserID(id):
+    try:
+        int(id)
+    except ValueError:
+        return jsonify({
+            'ok': False,
+            'data': 'Invalid ID: Must be a number.',
+        }), 400
+
+    data = getUserById(id)
+    if data['ok']:
+        return jsonify(data), 200
+    else:
+        return jsonify(data), 500
+
+@app.route('/login', methods=['POST'])
+def loginControllers():
+    data = login()
+    if data['ok']:
         return jsonify(data), 200
     else:
         return jsonify(data), 500

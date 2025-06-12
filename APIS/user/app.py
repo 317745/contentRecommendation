@@ -10,6 +10,6 @@ def before_request():
     get_connection()
     
 @app.teardown_appcontext
-def teardown_appcontext():
+def teardown_appcontext(exception=None):
     closeConnection()
 CORS(app)

@@ -14,7 +14,7 @@ db_pool = SimpleConnectionPool(
     host=os.getenv('HOST'),
     user=os.getenv('USER'),
     password=os.getenv('PASSWORD'),
-    database='users',
+    database=os.getenv('DATABASE'),
     port=int(os.getenv('PORT'))
 )
 
