@@ -3,6 +3,7 @@ from flask import jsonify, request
 import requests
 from datetime import datetime
 from models.connection import *
+from psycopg2.extras import RealDictCursor
 
 def countrys():
     url = 'https://country.io/names.json'
@@ -49,15 +50,15 @@ def countryByName(name):
 def confirmUserNameEmail(username, email):
     try: 
         conn = get_connection()
-        cursor = conn.cursor()
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
         cursor.execute("SELECT username, email FROM users WHERE username = %s OR email = %s", (username, email))
         user = cursor.fetchone()
-        if user[0] == username:
+        if user['username'] == username:
             return {
                 'ok': True,
                 'data': f"There's another user with the username: {username}"
             }
-        elif user[1] == email:
+        elif user['email'] == email:
             return {
                 'ok': True,
                 'data': f"There's another user with the email: {email}"
@@ -106,7 +107,7 @@ def createUser():
             }
 
         conn = get_connection()
-        cursor = conn.cursor()
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
         cursor.execute('''INSERT INTO users (
         first_name, last_name, date_of_birth, 
         city_of_birth, city_of_residence, username, 
@@ -133,7 +134,7 @@ def createUser():
 def getUsers():
     try:
         conn = get_connection()
-        cursor = conn.cursor()
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
         cursor.execute('''
         SELECT * FROM users
         ''')
@@ -151,7 +152,7 @@ def getUsers():
 def getUserById(id):
     try:
         conn = get_connection()
-        cursor = conn.cursor()
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
         cursor.execute('''
         SELECT * FROM users 
         WHERE user_id = %s
@@ -172,17 +173,22 @@ def login():
         email = request.json.get('email')
         password = request.json.get('password')
         conn = get_connection()
-        cursor = conn.cursor()
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
         cursor.execute('''
         SELECT username FROM users 
         WHERE email = %s and password = %s
         ''', (email, password))
-        response = cursor.fetchone()[0]
-        if len(response) > 0:
+        response = cursor.fetchone()
+        if response == None:
             return {
-            'ok': True,
-            'data': f'Welcome user: {response}'
-        }
+                'ok': False,
+                'data': f"The username or password are incorrect"
+            }
+        else: 
+            return {
+                'ok': True,
+                'data': f"Welcome user: {response['username']}"
+            }
     except Exception as e:
         return {
             'ok': False,
