@@ -12,8 +12,8 @@ def getCountrys():
     else: 
         return jsonify(data), 500
 
-@app.route('/countryById/<string:name>')
-def getCountryById(name):
+@app.route('/countrybyname/<string:name>')
+def getCountryByName(name):
     data = countryByName(name)
     if data['ok']:
         return jsonify(data), 200

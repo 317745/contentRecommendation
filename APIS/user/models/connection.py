@@ -1,7 +1,7 @@
 import os
 import time
 
-from psycopg2.pool import SimpleConnectionPool
+import psycopg2
 from flask import g
 from dotenv import load_dotenv
 
@@ -9,21 +9,18 @@ load_dotenv()
 
 max_attempts = 5
 
-db_pool = SimpleConnectionPool(
-    1, 10,
-    host=os.getenv('HOST'),
-    user=os.getenv('USER'),
-    password=os.getenv('PASSWORD'),
-    database=os.getenv('DATABASE'),
-    port=int(os.getenv('PORT'))
-)
-
 def get_connection():
     if 'db' not in g:
         attempts = 0
         while attempts < max_attempts:
             try: 
-                g.db = db_pool.getconn()
+                g.db = psycopg2.connect(**{
+                    'database':os.getenv('DATABASE'),
+                    'user':os.getenv('DBUSER'),
+                    'password':os.getenv('PASSWORD'),
+                    'host':os.getenv('HOST'),
+                    'port':int(os.getenv('PORT'))
+                })
                 print('Se establecio la conexion a la DB de manera correcta.')
                 break
             except Exception as e:
@@ -38,4 +35,5 @@ def get_connection():
 def closeConnection(e=None):
     db = g.pop('db', None)
     if db is not None:
-        db_pool.putconn(db)
+        print('Cerrando la conexion a la DB.')
+        db.close()
