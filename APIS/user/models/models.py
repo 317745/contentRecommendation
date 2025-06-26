@@ -23,7 +23,6 @@ def countrys():
 
 def countryByName(name):
     try:
-
         if name is None:
             return {
                 'ok': False,
