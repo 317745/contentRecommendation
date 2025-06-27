@@ -52,10 +52,23 @@ def getArtistByName(name):
 
         try:
             response = requests.get(url, params=params, headers=headers).json()
+            data = response['artists']['items']
+            artists = []
+
+            for artist in data:
+                artists.append({
+                    'followers': artist['followers']['total'],
+                    'genres': artist['genres'],
+                    'spotify': artist['href'],
+                    'id': artist['id'],
+                    'image': artist['images'][0]['url'],
+                    'name': artist['name'],
+                    'popularity': artist['popularity']        
+                })
 
             return {
                 'ok': True,
-                'data': response
+                'data': artists
             }
         
         except Exception as e:
@@ -78,10 +91,6 @@ def getArtistByID(id):
 
         try:
             response = requests.get(url, headers=headers).json()
-            #data = []
-
-            #for name in response['artists']['items']:
-            #    data.append(name['name'])
 
             return {
                 'ok': True,
