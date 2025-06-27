@@ -1,6 +1,7 @@
 import os
 import time
 import psycopg2
+
 from flask import g
 from dotenv import load_dotenv
 
@@ -13,13 +14,13 @@ def get_connection():
         attempts = 0
         while attempts < max_attempts:
             try: 
-                g.db = psycopg2.connect(
-                    host=os.getenv('HOST'),
-                    user=os.getenv('DBUSER'),
-                    password=os.getenv('PASSWORD'),
-                    dbname='song',
-                    port=int(os.getenv('PORT'))
-                )
+                g.db = psycopg2.connect(**{
+                    'database':os.getenv('DATABASE'),
+                    'host':os.getenv('HOST'),
+                    'user':os.getenv('DBUSER'),
+                    'password':os.getenv('PASSWORD'),
+                    'port':int(os.getenv('PORT'))
+                })
                 print('Se establecio la conexion a la DB de manera correcta.')
                 break
             except Exception as e:
@@ -34,4 +35,5 @@ def get_connection():
 def closeConnection(e=None):
     db = g.pop('db', None)
     if db is not None:
+        print('Cerrando la conexion a la DB.')
         db.close()

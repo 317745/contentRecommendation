@@ -1,7 +1,7 @@
 import os
 import time
-
 import psycopg2
+
 from flask import g
 from dotenv import load_dotenv
 
