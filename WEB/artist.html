@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User</title>
+    <link rel="stylesheet" href="artist.css">
 </head>
 <body>
     <div id="searchArtist">
@@ -14,6 +15,7 @@
     <script>
         const getArtist = async () => {
             let artist = document.getElementById('artistName').value;
+        
             let container = document.getElementById('response');
             container.innerHTML = '';
 
@@ -25,7 +27,7 @@
             }
 
             try {
-                const url = `http://localhost:3032/artist/${artist}`;
+                const url = `http://localhost:3032/artistName/${encodeURIComponent(artist.trim())}`;
                 let response = await fetch(url);
                 response = await response.json();
                 const element = document.createElement('pre');
@@ -34,15 +36,20 @@
                     const error = response.data;
                     element.textContent = `Error: ${error}`;
                 } else {
-                    element.textContent = JSON.stringify(response.data, null, 2);
+                    response.data.forEach((element) => {
+                    container.innerHTML += `
+                    <div id='artistCard'>
+                        <img src="${element.image}" id='artistImage'>
+                        <p>${element.name}</p>
+                    </div>
+                    `;
+                     });
                 }
-
-                container.appendChild(element);
             } catch (error) {
                 const element = document.createElement('p');
                 element.textContent = `${error.message}`
                 container.appendChild(element)
-            }
+            } 
         }
     </script>
 </body>

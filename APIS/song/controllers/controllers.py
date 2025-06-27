@@ -11,7 +11,7 @@ def artistByID(id):
     else:
         return jsonify(data), 500
     
-@app.route('/artistName/<string:name>')
+@app.route('/artistName/<name>')
 def artistByName(name):
     data = getArtistByName(name)
     if data['ok']:
