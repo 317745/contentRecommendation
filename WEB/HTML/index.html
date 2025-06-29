@@ -7,26 +7,59 @@
     <title>EchoVerse</title>
 </head>
 <body>
+    <img src="/WEB/images/image.png" alt="‥." class="logo">
+    <!--
+    <div id="rigth"></div>
+    <div id="center"></div>
+    <div id="left"></div>
+    <div id="centerTop"></div>//
+    -->
     <div id="loginContainer" class="loginContainer">
         <h1 class="welcome" id="welcome">Welcome to EchoVerse</h1>
-        <form class="formLogin">
+        <form class="formLogin" id="formLogin">
             <input id="email" type="email" placeholder="Email" required>
             <input id="password" type="password" placeholder="Password" required>
-            <button class="buttonLogin" onclick="send()">Send</button>
+            <button id="buttonLogin" class="buttonLogin" onclick="sendLogin(event)">Send</button>
         </form>
+        <p id="responseLogin" class="responseLogin"></p>
+
     </div>
 </body>
 <script>
-    const send = () => {
-
-        event.preventDefault();
+    const sendLogin = async (event) => {
+        const url = 'http://localhost:3031/login';
 
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
-        document.getElementById('welcome').innerHTML = `
-        <p>${email}</p><br><p>${password}</p>
-        `
-    }
+        const responseLogin = document.getElementById('responseLogin');
+        const buttonLogin = document.getElementById('buttonLogin');
+        const formLogin = document.getElementById('formLogin');
+        const pLogin = document.getElementById('responseLogin')
+
+        if (!formLogin.checkValidity()) {
+            return;
+        } else {
+            event.preventDefault();
+        }
+        
+        let response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email:`${email}`,
+                password:`${password}`
+            })
+        });
+
+        response = await response.json();
+        pLogin.textContent = `${response.data}`;
+        setTimeout(function() {
+            pLogin.textContent = '';
+        }, 5000);
+    };
+        
 </script>
 </html>

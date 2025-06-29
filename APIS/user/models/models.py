@@ -55,16 +55,16 @@ def confirmUserNameEmail(username, email):
         if user['username'] == username:
             return {
                 'ok': True,
-                'data': f"There's another user with the username: {username}"
+                'data': f"There's another user with the username {username}"
             }
         elif user['email'] == email:
             return {
                 'ok': True,
-                'data': f"There's another user with the email: {email}"
+                'data': f"There's another user with the email {email}"
             }
         return {
             'ok': False,
-            'data': f"The username: {username} and email {email} is available"
+            'data': f"The username {username} and email {email} is available"
         }
     except Exception as e:
         return {
@@ -186,7 +186,7 @@ def login():
         else: 
             return {
                 'ok': True,
-                'data': f"Welcome user: {response['username']}"
+                'data': f"Welcome user {response['username']}"
             }
     except Exception as e:
         return {
