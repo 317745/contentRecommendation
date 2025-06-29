@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/WEB/CSS/index.css">
+    <title>EchoVerse</title>
+</head>
+<body>
+    <div id="loginContainer" class="loginContainer">
+        <h1 class="welcome" id="welcome">Welcome to EchoVerse</h1>
+        <form class="formLogin">
+            <input id="email" type="email" placeholder="Email" required>
+            <input id="password" type="password" placeholder="Password" required>
+            <button class="buttonLogin" onclick="send()">Send</button>
+        </form>
+    </div>
+</body>
+<script>
+    const send = () => {
+
+        event.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        document.getElementById('welcome').innerHTML = `
+        <p>${email}</p><br><p>${password}</p>
+        `
+    }
+</script>
+</html>
