@@ -1,20 +1,19 @@
 #APIS\user\controllers\controllers.py
 from app import app
 from models.models import *
+from middlewares.sendEmail import *
 
 from flask import jsonify
+
+def contextApp():
+    with app.app_context():
+        sendEmail(1, 'jjnipaz@gmail.com')
+
+contextApp()
 
 @app.route('/getCountrys')
 def getCountrys():
     data = countrys()
-    if data['ok']:
-        return jsonify(data), 200
-    else: 
-        return jsonify(data), 500
-
-@app.route('/countrybyname/<string:name>')
-def getCountryByName(name):
-    data = countryByName(name)
     if data['ok']:
         return jsonify(data), 200
     else: 

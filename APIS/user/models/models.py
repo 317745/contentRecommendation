@@ -1,9 +1,13 @@
 #APIS\user\models\models.py
-from flask import jsonify, request
 import requests
+
+from flask import jsonify, request
 from datetime import datetime
-from models.connection import *
 from psycopg2.extras import RealDictCursor
+
+from middlewares.sendEmail import *
+from middlewares.countrByName import *
+from models.connection import *
 
 def countrys():
     url = 'https://country.io/names.json'
@@ -20,31 +24,6 @@ def countrys():
             'exception': str(e)
         }
     return response
-
-def countryByName(name):
-    try:
-        if name is None:
-            return {
-                'ok': False,
-                'error': 'El nombre del país es requerido.'
-            }
-        response = countrys()
-        if response['ok'] == True:
-            for key, value in response['data'].items():
-                if value.lower() == name.lower():
-                    return {
-                        'ok': True,
-                        'country': value
-                    }
-            return {
-                'ok': False,
-                'error': 'Pais no encontrado'
-            }
-    except Exception as e:
-        return {
-                'ok': False,
-                'error': str(e)
-            }
 
 def confirmUserNameEmail(username, email):
     try: 
@@ -71,6 +50,7 @@ def confirmUserNameEmail(username, email):
             'ok': False,
             'data': str(e)
         }
+
 
 def createUser():
     try:
@@ -147,26 +127,7 @@ def getUsers():
             'ok': False,
             'data': str(e)
         }
-
-def getUserById(id):
-    try:
-        conn = get_connection()
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-        cursor.execute('''
-        SELECT * FROM users 
-        WHERE user_id = %s
-        ''', (id))
-        response = cursor.fetchone()
-        return {
-            'ok': True,
-            'data': response
-        }
-    except Exception as e:
-        return {
-            'ok': False,
-            'data': str(e)
-        }
-
+    
 def login():
     try:
         email = request.json.get('email')
@@ -193,3 +154,24 @@ def login():
             'ok': False,
             'data': str(e)
         }
+    
+
+def getUserById(id):
+    try:
+        conn = get_connection()
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        cursor.execute('''
+        SELECT * FROM users 
+        WHERE user_id = %s
+        ''', (id))
+        response = cursor.fetchone()
+        return {
+            'ok': True,
+            'data': response
+        }
+    except Exception as e:
+        return {
+            'ok': False,
+            'data': str(e)
+        }
+

@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS favorite_songs;
 DROP TABLE IF EXISTS favorite_media;
+DROP TABLE IF EXISTS codemail;
 DROP TABLE IF EXISTS singer;
 DROP TABLE IF EXISTS song;
 DROP TABLE IF EXISTS song_singer;
@@ -20,6 +21,13 @@ CREATE TABLE users (
   country VARCHAR(50) NOT NULL,
   active BOOLEAN NOT NULL,
   created_at DATE NOT NULL
+);
+
+CREATE TABLE codemail (
+    id INTEGER PRIMARY KEY NOT NULL,
+    code VARCHAR(12),
+    date TIMESTAMP NOT NULL,
+    email VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE media (
