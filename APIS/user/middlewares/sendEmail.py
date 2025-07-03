@@ -18,7 +18,6 @@ def sendEmail(id, emailAddres):
     mensaje = f'''HOLA TE AMO, SOY TU ENAMORADO SECRETO UWU'''
     remitente = os.getenv('GMAIL_USER')
     try: 
-    
         email = EmailMessage()
         email["From"] = remitente
         email["To"] = emailAddres
@@ -26,15 +25,17 @@ def sendEmail(id, emailAddres):
         email.set_content(f'''
            <html>
                 <body style=" 
+                            text-align: center;
+                            margin: 5vh;
                             background-color: #424242;
                             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
                             ">
-                    <img src="https://raw.githubusercontent.com/317745/contentRecommendation/refs/heads/main/WEB/images/image.png" alt="zorra" style="
-                            margin: 2% 42% 2% 42%;">
-                    <h1 style="margin: 0 34% 2% 38%;
-                               color: #fff;">Este es tu codigo de confirmacion</h1>
-                    <h2 style="margin: 0 44% 2% 48%;
-                               color: #fff">{code}</h2>
+                    <img src="https://raw.githubusercontent.com/317745/contentRecommendation/refs/heads/main/WEB/images/image.png" alt="zorra"
+                        style="margin: 0vh 0vh 5vh 0vh;">
+                    <h1 style="color: #fff;
+                                margin: 0vh 0vh 5vh 0vh;">Este es tu codigo de confirmacion</h1>
+                    <h2 style="color: #fff;
+                                margin: 0vh 0vh 5vh 0vh;">{code}</h2>
                 </body>
             </html>
         ''', subtype='html')
