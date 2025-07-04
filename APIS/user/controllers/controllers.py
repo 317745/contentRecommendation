@@ -5,12 +5,6 @@ from middlewares.sendEmail import *
 
 from flask import jsonify
 
-def contextApp():
-    with app.app_context():
-        sendEmail(1, 'jjnipaz@gmail.com')
-
-contextApp()
-
 @app.route('/getCountrys')
 def getCountrys():
     data = countrys()

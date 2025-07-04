@@ -1,8 +1,8 @@
+from models.connection import *
+
 import os 
 import random
 import smtplib
-
-from models.connection import *
 
 from datetime import datetime
 from email.message import EmailMessage
@@ -57,16 +57,11 @@ def sendEmail(id, emailAddres):
             id, code, emailAddres
         ))
         conn.commit()
-        print({
+        return {
             'ok': True,
             'data': 'El correo con el codigo de confirmacion se ha enviado.'
-        })
-        return 
+        }
     except Exception as e:
-        print({
-            'ok': False,
-            'data': str(e)
-        })
         return {
             'ok': False,
             'data': str(e)

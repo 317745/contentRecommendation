@@ -1,13 +1,14 @@
 #APIS\user\models\models.py
+from middlewares.sendEmail import *
+from middlewares.countrByName import *
+from middlewares.confirmUserEMail import *
+from models.connection import *
+
 import requests
 
 from flask import jsonify, request
 from datetime import datetime
 from psycopg2.extras import RealDictCursor
-
-from middlewares.sendEmail import *
-from middlewares.countrByName import *
-from models.connection import *
 
 def countrys():
     url = 'https://country.io/names.json'
@@ -25,32 +26,8 @@ def countrys():
         }
     return response
 
-def confirmUserNameEmail(username, email):
-    try: 
-        conn = get_connection()
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-        cursor.execute("SELECT username, email FROM users WHERE username = %s OR email = %s", (username, email))
-        user = cursor.fetchone()
-        if user['username'] == username:
-            return {
-                'ok': True,
-                'data': f"There's another user with the username {username}"
-            }
-        elif user['email'] == email:
-            return {
-                'ok': True,
-                'data': f"There's another user with the email {email}"
-            }
-        return {
-            'ok': False,
-            'data': f"The username {username} and email {email} is available"
-        }
-    except Exception as e:
-        return {
-            'ok': False,
-            'data': str(e)
-        }
-
+def emailConfirmation():
+    try:
 
 def createUser():
     try:
