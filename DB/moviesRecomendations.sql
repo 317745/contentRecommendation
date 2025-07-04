@@ -24,10 +24,11 @@ CREATE TABLE users (
 );
 
 CREATE TABLE codemail (
-    id INTEGER PRIMARY KEY NOT NULL,
+    id SERIAL PRIMARY KEY NOT NULL,
     code VARCHAR(12),
     date TIMESTAMP NOT NULL,
-    email VARCHAR(100) NOT NULL
+    email VARCHAR(100) NOT NULL, 
+    username VARCHAR(50) UNIQUE NOT NULL
 );
 
 CREATE TABLE media (

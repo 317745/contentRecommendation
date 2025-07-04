@@ -12,6 +12,14 @@ def getCountrys():
         return jsonify(data), 200
     else: 
         return jsonify(data), 500
+    
+@app.route('/emailConfirmation', methods=['POST'])
+def postEmailCode():
+    data = emailConfirmation()
+    if data['ok']:
+        return jsonify(data), 200
+    else:
+        return jsonify(data), 500
 
 @app.route('/createUser', methods=['POST'])
 def postUser():

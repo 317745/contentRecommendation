@@ -2,6 +2,7 @@
 from middlewares.sendEmail import *
 from middlewares.countrByName import *
 from middlewares.confirmUserEMail import *
+from middlewares.confirmUserEmailCode import *
 from models.connection import *
 
 import requests
@@ -24,10 +25,35 @@ def countrys():
             'ok': False,
             'exception': str(e)
         }
-    return response
+
 
 def emailConfirmation():
     try:
+        email = request.json.get('email')
+        username = request.json.get('username')
+
+        responseUsernameUser = confirmUserNameEmail(username, email)
+        if responseUsernameUser['ok'] == False:
+            return responseUsernameUser
+        
+        responseUsernameCodemail = confirmUserNameEmailCode(email)
+        if responseUsernameCodemail['ok'] == False:
+            return responseUsernameCodemail
+        
+        responseSendEmail = sendEmail(username, email)
+        if responseSendEmail['ok'] == False:
+            return responseSendEmail
+        
+        return {
+            'ok': True, 
+            'data': f'Se envio el codigo de confirmacion al correo {email}'
+        }
+    except Exception as e:
+        return {
+            'ok': False,
+            'data': str(e)
+        }
+
 
 def createUser():
     try:
@@ -39,11 +65,8 @@ def createUser():
         username = request.json.get('username')
         email = request.json.get('email')
         password = request.json.get('password')
-        responseUsername = confirmUserNameEmail(username, email)
-        if responseUsername['ok']:
-            return responseUsername
-
         country = request.json.get('country')
+
         responseCountry = countryByName(country)
 
         if responseCountry['ok'] == False:
@@ -87,6 +110,7 @@ def createUser():
             'data': str(e)
         }
 
+
 def getUsers():
     try:
         conn = get_connection()
@@ -104,7 +128,8 @@ def getUsers():
             'ok': False,
             'data': str(e)
         }
-    
+
+
 def login():
     try:
         email = request.json.get('email')
