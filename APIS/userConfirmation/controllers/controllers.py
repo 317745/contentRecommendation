@@ -7,3 +7,8 @@ from flask import jsonify
 def verifySendCodePost():
     response = verifySendCode()
     return response
+
+@app.route('/checkCode', methods=['POST'])
+def checkCodePost():
+    response = checkCode()
+    return response

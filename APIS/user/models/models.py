@@ -1,8 +1,5 @@
 #APIS\user\models\models.py
-from middlewares.sendEmail import *
 from middlewares.countrByName import *
-from middlewares.confirmUserEMail import *
-from middlewares.confirmUserEmailCode import *
 from models.connection import *
 
 import requests
@@ -26,35 +23,37 @@ def countrys():
             'exception': str(e)
         }
 
-
-def emailConfirmation():
-    try:
-        email = request.json.get('email')
+def confirmUserNameEmail():
+    try: 
         username = request.json.get('username')
-
-        responseUsernameUser = confirmUserNameEmail(username, email)
-        if responseUsernameUser['ok'] == False:
-            return responseUsernameUser
+        email = request.json.get('email')
         
-        responseUsernameCodemail = confirmUserNameEmailCode(email)
-        if responseUsernameCodemail['ok'] == False:
-            return responseUsernameCodemail
-        
-        responseSendEmail = sendEmail(username, email)
-        if responseSendEmail['ok'] == False:
-            return responseSendEmail
-        
+        conn = get_connection()
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        cursor.execute("SELECT username, email FROM users WHERE username = %s OR email = %s", (username, email))
+        user = cursor.fetchone()
+        print(user)
+        if user is not None:
+            if user['username'] == username:
+                return {
+                    'ok': False,
+                    'data': f"There's another user with the username {username}"
+                }
+            elif user['email'] == email:
+                return {
+                    'ok': False,
+                    'data': f"There's another user with the email {email}"
+                }
         return {
-            'ok': True, 
-            'data': f'Se envio el codigo de confirmacion al correo {email}'
+            'ok': True,
+            'data': f"The username {username} and email {email} is available"
         }
     except Exception as e:
         return {
             'ok': False,
             'data': str(e)
         }
-
-
+    
 def createUser():
     try:
         first_name = request.json.get('first_name').title()

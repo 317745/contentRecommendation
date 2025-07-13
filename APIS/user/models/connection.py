@@ -24,9 +24,9 @@ def get_connection():
                 print('Se establecio la conexion a la DB de manera correcta.')
                 break
             except Exception as e:
+                attempts += 1
                 print(f'''Error al establecer las conexion a la DB.
                 Tienes {5 - attempts} intentos mas.''')
-                attempts += 1
                 time.sleep(5)
         else:
             raise Exception('Fallo al establecer la conexion a la DB.')

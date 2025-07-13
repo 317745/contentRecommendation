@@ -1,7 +1,6 @@
 #APIS\user\controllers\controllers.py
 from app import app
 from models.models import *
-from middlewares.sendEmail import *
 
 from flask import jsonify
 
@@ -13,14 +12,14 @@ def getCountrys():
     else: 
         return jsonify(data), 500
     
-@app.route('/emailConfirmation', methods=['POST'])
-def postEmailCode():
-    data = emailConfirmation()
+@app.route('/usernameEmailConfirmation', methods=['POST'])
+def usernameEmailCode():
+    data = confirmUserNameEmail()
     if data['ok']:
         return jsonify(data), 200
     else:
         return jsonify(data), 500
-
+    
 @app.route('/createUser', methods=['POST'])
 def postUser():
     data = createUser()
